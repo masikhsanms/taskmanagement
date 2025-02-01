@@ -74,12 +74,12 @@ $route['hapuspengguna'] = 'admin/cpengguna/hapuspengguna';
  * MENU Master Data
  * 1. data barang
  */
-$route['databarang'] = 'admin/cmasterdata/databarang';
-$route['tambahbarang'] = 'admin/cmasterdata/tambahbarang';
-$route['simpandatabarang'] = 'admin/cmasterdata/simpandatabarang';
-$route['editbarang/(:num)'] = 'admin/cmasterdata/edit/$1';
-$route['updatebarang'] = 'admin/cmasterdata/update';
-$route['hapusbarang'] = 'admin/cmasterdata/delete';
+$route['datatask'] = 'admin/cmasterdata/datatask';
+$route['tambahtask'] = 'admin/cmasterdata/tambahtask';
+$route['simpantask'] = 'admin/cmasterdata/simpantask';
+$route['edittask/(:num)'] = 'admin/cmasterdata/edit/$1';
+$route['updatetask'] = 'admin/cmasterdata/update';
+$route['hapustask'] = 'admin/cmasterdata/delete';
 
 /**
  * MENU Master Data

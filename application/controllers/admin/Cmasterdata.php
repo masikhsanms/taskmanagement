@@ -6,18 +6,20 @@ class Cmasterdata extends CI_Controller
     function __construct(){
         parent::__construct();
         $this->load->model('mmasterdata');
-        $this->load->model('mauth');
-        $this->load->model('mpengguna');
-		if(!$this->mauth->current_user()){
-			redirect('adminlogin');
-		}
+        $this->load->library('taskservices');
+
+        // $this->load->model('mauth');
+        // $this->load->model('mpengguna');
+		// if(!$this->mauth->current_user()){
+		// 	redirect('adminlogin');
+		// }
     }
 
-    public function setting_layout_barang(){
+    public function setting_layout_task(){
         $data = [
-            'content_view' => 'admin/pages/databarang',
+            'content_view' => 'admin/pages/datatask',
             'title' => '',
-            'active_menu' => 'barang',
+            'active_menu' => 'task',
             'sub_active_menu' => '',
             'plugins'=>[PLUGIN_DATATABLE]
         ];
@@ -25,85 +27,43 @@ class Cmasterdata extends CI_Controller
         return $data;
     }
 
-    public function setting_layout_supplier(){
-        $data = [
-            'content_view' => 'admin/pages/supplier',
-            'title' => '',
-            'active_menu' => 'supplier',
-            'sub_active_menu' => '',
-            'plugins'=>[PLUGIN_DATATABLE]
-        ];
-
-        return $data;
-    }
-
-    public function setting_layout_produk(){
-        $data = [
-            'content_view' => 'admin/pages/dataproduk',
-            'title' => '',
-            'active_menu' => 'produk',
-            'sub_active_menu' => '',
-            'plugins'=>[PLUGIN_DATATABLE]
-        ];
-
-        return $data;
-    }
-
-    public function setting_layout_buyer(){
-        $data = [
-            'content_view' => 'admin/pages/databuyer',
-            'title' => '',
-            'active_menu' => 'buyer',
-            'sub_active_menu' => '',
-            'plugins'=>[PLUGIN_DATATABLE]
-        ];
-
-        return $data;
-    }
-
-    public function databarang(){
+    public function datatask(){
         
-        $mmasterdata  = $this->mmasterdata;
-
-        $data = $this->setting_layout_barang();
-        $data['title']     = 'Data Barang';
-        $data['mode']      = 'view';
-        $data['databarang'] = $mmasterdata->get_all_barang();
-        $data['script_js'] = ['masterdata'];
-
-        $this->load->view('admin/v_overview',$data);
+        $datas = $this->taskservices->call( $this->setting_layout_task() );
+        
+        $this->load->view('admin/v_overview',$datas);
     }
 
     
 
-    public function tambahbarang(){
-        $data = $this->setting_layout_barang();
-        $data['title'] = 'Tambah Data Barang';
+    public function tambahtask(){
+        $data = $this->setting_layout_task();
+        $data['title'] = 'Tambah Task Management';
         $data['mode'] = 'add';
         $data['script_js'] = ['masterdata'];
 
         $this->load->view('admin/v_overview',$data);
     }
 
-    public function simpandatabarang(){
+    public function simpantask(){
         $mmasterdata  = $this->mmasterdata;
         $rules      = $mmasterdata->rules_barang();
         $this->form_validation->set_rules( $rules );
 
         if( $this->form_validation->run() == FALSE ){
-            return $this->tambahbarang();
+            return $this->tambahtask();
         }
 
-        if($mmasterdata->simpanbarang() > 0){
-            redirect(site_url('databarang'));
+        if($mmasterdata->simpantask() > 0){
+            redirect(site_url('datatask'));
         }
     }
 
     public function edit($id=null){
         $mmasterdata = $this->mmasterdata;
 
-        $data = $this->setting_layout_barang();
-        $data['title'] = 'Edit Barang';
+        $data = $this->setting_layout_task();
+        $data['title'] = 'Edit Task Management';
         $data['mode'] = 'edit';
         $data['getdatabyid'] = $mmasterdata->get_by_id($id);
         $data['script_js'] = ['masterdata'];
@@ -125,7 +85,7 @@ class Cmasterdata extends CI_Controller
 
         $mmasterdata->update(); 
         
-        redirect(site_url('databarang'));
+        redirect(site_url('datatask'));
     }
 
     public function delete(){

@@ -4,7 +4,7 @@
     <div class="col-md-12">
 
         <div class="button-action-group">
-            <a href="<?= site_url('tambahbarang'); ?>" class="btn btn-primary"><i class="fa fa-plus-square"></i> Tambah</a>
+            <a href="<?= site_url('tambahtask'); ?>" class="btn btn-primary"><i class="fa fa-plus-square"></i> Tambah</a>
         </div>
         <!-- end button-action-group -->
 
@@ -12,25 +12,28 @@
             <table class="table table-striped table-hover dttb">
                 <thead>
                     <tr>
-                        <th>No</th>
-                        <th>Kode Barang</th>
-                        <th>Nama Barang</th>
-                        <th>Tanggal</th>
+                        <th width="5%">No</th>
+                        <th>Judul Tugas</th>
+                        <th>Deskripsi</th>
+                        <th>Tgl.Tempo</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php 
                     $no = 1;
-                    foreach($databarang as $row): ?>
+                    foreach($datatask as $row): ?>
                     <tr>
                         <td><?= $no++; ?></td>
-                        <td><?= $row['kode']; ?></td>
-                        <td><?= $row['namabarang']; ?></td>
-                        <td><?= $row['tanggal']; ?></td>
+                        <td><?= ucfirst( $row['judul'] ); ?></td>
+                        <td><?= $row['deskripsi']; ?></td>
+                        <td><?= format_datetime($row['tanggaltempo'],'d M Y'); ?></td>
+                        <td><?= status_task($row['status']); ?></td>
                         <td>
-                            <a href="<?= site_url('editbarang/'.$row['idbarang']); ?>" class="btn-sm btn-warning"><i class="fa fa-edit"></i> Edit</a>
-                            <a href="javascript:void(0);" data-id="<?= $row['idbarang'] ?>" class="hapusbarang btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                            <a href="<?= site_url('edittask/'.$row['ID']); ?>" class="btn-sm btn-warning"><i class="fa fa-edit"></i> Edit</a>
+                            <a href="javascript:void(0);" data-id="<?= $row['ID'] ?>" class="hapusbarang btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
+                            <a href="javascript:void(0);" data-id="<?= $row['ID'] ?>" class="detail btn-sm btn-primary"><i class="fa fa-eye"></i> Detail</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>

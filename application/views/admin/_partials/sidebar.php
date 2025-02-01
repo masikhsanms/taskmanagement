@@ -13,7 +13,7 @@
                             </a>    
                             
                             <div class="sb-sidenav-menu-heading">Master Data</div>
-                            <a class="nav-link <?= $active_menu == 'barang' ? 'active' : ''; ?>" href="<?= site_url('databarang'); ?>" href="<?= site_url('databarang'); ?>">
+                            <a class="nav-link <?= $active_menu == 'task' ? 'active' : ''; ?>" href="<?= site_url('datatask'); ?>" href="<?= site_url('datatask'); ?>">
                                 <div class="sb-nav-link-icon"><i class="fas fa-cubes"></i></div>
                                 Data Tasks
                             </a>

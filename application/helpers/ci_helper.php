@@ -65,3 +65,23 @@ function check_userakses($level){
 
     return $akses;
 }
+
+function status_task($status){
+    
+    switch ($status) {
+        case 'Pending':
+            $badge = '<span class="badge badge-danger">'.$status.'</span>';
+            break;
+        case 'In Progress':
+            $badge = '<span class="badge badge-warning">'.$status.'</span>';
+            break;
+        case 'Completed':
+            $badge = '<span class="badge badge-success">'.$status.'</span>';
+            break;
+        default:
+            $badge = '<span class="badge badge-secondary">Not Valid</span>';
+            break;
+    }
+
+    return $badge;
+}
