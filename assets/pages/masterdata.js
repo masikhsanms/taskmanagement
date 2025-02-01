@@ -1,118 +1,31 @@
-$(document).ready(function(){
-/**
- * Hapus Barang
- */
-hapus_barang();
-function hapus_barang(){
-    $('.hapusbarang').on('click',function(e){
-        if( confirm('Apakah Anda yakin Menghapus data ini ?') ){
-            $.ajax({
-               url:'hapusbarang',
-               data:{'id':$(this).data('id')},
-               type:'POST',
-               dataType:'JSON',
-                success:function(response){
-                    // console.log(response);
-                    if( response.code == '200' ){
-                        window.location.reload();
-                    }else{
-                        alert('Maaf Data Gagal Dihapus');
-                        return false;
-                    }
-                },
-                error:function(xhr){
-                    alert('Error Sistem : '+xhr.status);
-                }
-            });
-        }
-    });
-}
+(function($){
 
-/**
- * Hapus suplier
- */
-hapus_suplier();
-function hapus_suplier(){
-    $('.hapussuplier').on('click',function(e){
-        if( confirm('Apakah Anda yakin Menghapus data ini ?') ){
-            $.ajax({
-               url:'hapussuplier',
-               data:{'id':$(this).data('id')},
-               type:'POST',
-               dataType:'JSON',
-                success:function(response){
-                    // console.log(response);
-                    if( response.code == '200' ){
-                        window.location.reload();
-                    }else{
-                        alert('Maaf Data Gagal Dihapus');
-                        return false;
-                    }
-                },
-                error:function(xhr){
-                    alert('Error Sistem : '+xhr.status);
-                }
-            });
-        }
-    });
-}
+	// use jQuery as $
+    $.fn.hapus_task = function(task_id) {
+        if (!confirm("Apakah Anda yakin ingin menghapus task ini?")) return;
 
-/**
- * Hapus produk
- */
-hapus_produk();
-function hapus_produk(){
-    $('.hapusproduk').on('click',function(e){
-        if( confirm('Apakah Anda yakin Menghapus data ini ?') ){
-            $.ajax({
-               url:'hapusproduk',
-               data:{'id':$(this).data('id')},
-               type:'POST',
-               dataType:'JSON',
-                success:function(response){
-                    // console.log(response);
-                    if( response.code == '200' ){
-                        window.location.reload();
-                    }else{
-                        alert('Maaf Data Gagal Dihapus');
-                        return false;
-                    }
-                },
-                error:function(xhr){
-                    alert('Error Sistem : '+xhr.status);
-                }
-            });
-        }
+        $.ajax({
+            url:'hapustask',
+            data:{'id':task_id},
+            type:'POST',
+            dataType:'JSON',
+             success:function(response){
+                 if( response.code == '200' ){
+                     window.location.reload();
+                 }else{
+                     alert('Maaf Data Gagal Dihapus');
+                     return false;
+                 }
+             },
+             error:function(xhr){
+                 alert('Error Sistem : '+xhr.status);
+             }
+         });
+    };
+    
+    $('.hapustask').on('click',function(){
+        var task_id = $(this).data("id");
+        $.fn.hapus_task(task_id);
     });
-}
 
-/**
- * Hapus buyer
- */
-hapus_buyer();
-function hapus_buyer(){
-    $('.hapusbuyer').on('click',function(e){
-        if( confirm('Apakah Anda yakin Menghapus data ini ?') ){
-            $.ajax({
-               url:'hapusbuyer',
-               data:{'id':$(this).data('id')},
-               type:'POST',
-               dataType:'JSON',
-                success:function(response){
-                    // console.log(response);
-                    if( response.code == '200' ){
-                        window.location.reload();
-                    }else{
-                        alert('Maaf Data Gagal Dihapus');
-                        return false;
-                    }
-                },
-                error:function(xhr){
-                    alert('Error Sistem : '+xhr.status);
-                }
-            });
-        }
-    });
-}
-
-});
+}(jQuery));

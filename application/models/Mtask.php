@@ -63,26 +63,55 @@ class Mtask extends CI_Model
     }
 
     function get_by_id($id=null){
-        $query = $this->db->select('*')
-                          ->where('id',$id)
-                          ->get($this->table)
-                          ->row_array();
+        $row_lampiran = $this->db->select('ID')
+                                ->where('task_ID',$id)
+                                ->get($this->table_file)
+                                ->row_array();
+        if( !empty($row_lampiran) ){
+            $row = $this->db->select('t.*,l.nama_file,l.url_file')
+                ->join($this->table_file.' l','t.ID = l.task_ID')
+                ->where('t.ID',$id)
+                ->get($this->table.' t')
+                ->row_array();
+        }else{
+            $row = $this->db->select('*')
+                ->where('ID',$id)
+                ->get($this->table)
+                ->row_array();
+        }
 
-        return $query;
+        return $row;
     }
 
     function update(){
         $post = $this->input->post(NULL,TRUE); // enables XSS filtering
-        $id = $post['id'];
-        $nama = $post['nama'];
-        $username = $post['username'];
-        $email = $post['email'];
-        $password = password_hash($post['password'], PASSWORD_BCRYPT);
+        
+        $ID = $post['idhidden'];
+        $judul = $post['judul'];
+        $status = $post['status'];
+        $tanggaltempo = $post['tanggaltempo'];
+        $deskripsi = $post['deskripsi'];
 
-        $data = compact('nama','username','email','password');
-
-        $this->db->where('id',$id);
+        $data = compact('judul','status','tanggaltempo','deskripsi');
+        
+        $this->db->where('ID',$ID);
         $this->db->update($this->table,$data);
+
+    }
+
+    function update_file($data,$where){
+        $row_lampiran = $this->db->select('nama_file')
+                                ->where($where)
+                                ->get($this->table_file)
+                                ->row_array();
+                                        
+        $is_removefile = remove_file($row_lampiran['nama_file']);
+
+        if( $is_removefile ){
+            $this->db->update(
+                $this->table_file,$data,$where
+            );
+        }
 
     }
 
@@ -93,7 +122,24 @@ class Mtask extends CI_Model
     }
 
     function delete($id){
+        $row_lampiran = $this->db->select('*')
+            ->where(['task_ID'=>$id])
+            ->get($this->table_file)
+            ->row_array();
+
+            
+        if( !empty($row_lampiran) ){
+            
+            $is_remove = remove_file($row_lampiran['nama_file']);
+
+            if( $is_remove ){
+                $this->db->delete($this->table_file,['ID'=>$row_lampiran['ID']]);
+            }
+
+        }
+        
         $query = $this->db->delete($this->table,['id'=>$id]);
+        
         return $query;
     }
 

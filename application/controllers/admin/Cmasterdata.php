@@ -6,6 +6,7 @@ class Cmasterdata extends CI_Controller
     function __construct(){
         parent::__construct();
         $this->load->model('mmasterdata');
+        $this->load->model('mtask');
         $this->load->library('taskservices');
 
         // $this->load->model('mauth');
@@ -21,7 +22,7 @@ class Cmasterdata extends CI_Controller
             'title' => '',
             'active_menu' => 'task',
             'sub_active_menu' => '',
-            'plugins'=>[PLUGIN_DATATABLE]
+            'plugins'=>[PLUGIN_DATATABLE,PLUGIN_SELECT2]
         ];
 
         return $data;
@@ -41,6 +42,7 @@ class Cmasterdata extends CI_Controller
         $data['title'] = 'Tambah Task Management';
         $data['mode'] = 'add';
         $data['script_js'] = ['masterdata'];
+        $data['plugins'] = [PLUGIN_SELECT2,PLUGIN_DATATABLE];
 
         $this->load->view('admin/v_overview',$data);
     }
@@ -54,45 +56,34 @@ class Cmasterdata extends CI_Controller
     }
 
     public function edit($id=null){
-        $mmasterdata = $this->mmasterdata;
+        $mtask = $this->mtask;
 
         $data = $this->setting_layout_task();
         $data['title'] = 'Edit Task Management';
         $data['mode'] = 'edit';
-        $data['getdatabyid'] = $mmasterdata->get_by_id($id);
+        $data['getdatabyid'] = $mtask->get_by_id($id);
         $data['script_js'] = ['masterdata'];
+        $data['plugins'] = [PLUGIN_SELECT2,PLUGIN_DATATABLE];
 
         $this->load->view('admin/v_overview',$data);
     }
 
     public function update(){
-        $mmasterdata  = $this->mmasterdata;
-        $rules      = $mmasterdata->rules_barang();
-        
-        $id         = $this->input->post('idhidden');
-
-        $this->form_validation->set_rules( $rules );
-
-        if( $this->form_validation->run() == FALSE ){
-            return $this->edit($id);
+        try {
+            $this->taskservices->update_service();
+        } catch (\Throwable $th) {
+            redirect('edittask/'.$this->input->post('id',TRUE));
         }
-
-        $mmasterdata->update(); 
-        
-        redirect(site_url('datatask'));
     }
 
     public function delete(){
-        $id = $this->input->post('id');
-        $mmasterdata = $this->mmasterdata;
-        
-        if($mmasterdata->delete($id)){
-            $retun = ['code'=>200,'msg'=>'Success'];
-        }else{
-            $retun = ['code'=>201,'msg'=>'Failed'];
+        try {
+            $data = $this->taskservices->delete_service();
+            echo json_encode($data);
+        } catch (\Throwable $th) {
+            redirect('datatask');
         }
-
-        echo json_encode($retun);
+        
     }
 
     /**

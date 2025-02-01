@@ -85,3 +85,21 @@ function status_task($status){
 
     return $badge;
 }
+
+/**
+ * file_name_extension : test.pdf
+ */
+function remove_file($file_name_extension){
+    $file_path = IMAGE_PATH . $file_name_extension;
+    
+    // Memastikan file ada sebelum menghapus
+    if (file_exists($file_path)) {
+        if (unlink($file_path)) {
+            return true; // File berhasil dihapus
+        } else {
+            return false; // Gagal menghapus file
+        }
+    } else {
+        return false; // File tidak ditemukan
+    }
+}
