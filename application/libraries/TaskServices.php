@@ -11,6 +11,7 @@ class TaskServices
         $this->CI->load->model('mauth');
         $this->CI->load->model('mpengguna');
         $this->CI->load->model('mtask');
+        $this->CI->load->library('upload');
     }
 
     public function current_user(){
@@ -51,20 +52,72 @@ class TaskServices
         
     }
 
-    public function save_user(){
-        $mpengguna  = $this->CI->mpengguna;
-        $rules      = $mpengguna->rules();        
+    public function save(){
+        $mtask  = $this->CI->mtask;
+        $rules      = $mtask->rules();
         $form_validation = $this->CI->form_validation;
 
         $form_validation->set_rules( $rules );
 
-        if( $form_validation->run() == FALSE ){
-            redirect(site_url('tambahpengguna'));
+        if( isset($file_upload['error']) ){
+            $this->CI->session->set_flashdata('error', $file_upload['msg']);
+            redirect(site_url('tambahtask'));
         }
 
-        if($mpengguna->simpan() > 0){
-            redirect(site_url('pengguna'));
+        if( $form_validation->run() == FALSE ){
+            $this->CI->session->set_flashdata('error', validation_errors());
+            redirect(site_url('tambahtask'));
         }
+
+        $task_ID = $mtask->simpan();
+
+        if ($task_ID > 0) {
+
+            
+            // upload file store to database
+            $file_store_db = $this->file_upload($this->CI->input->post('judul',true),$task_ID);
+
+            if( $file_store_db > 0 ){
+                $this->CI->mtask->update_idfile_task($file_store_db,$task_ID);
+            }
+
+            $this->CI->session->set_flashdata('success', 'Task berhasil disimpan!');
+            redirect(site_url('datatask'));
+        } else {
+            $this->CI->session->set_flashdata('error', 'Gagal menyimpan task.');
+            redirect(site_url('tambahtask'));
+        }
+
+    }
+
+    public function file_upload($filename,$task_ID){
+        $config['upload_path']          = FCPATH.'assets/upload/';
+        $config['allowed_types']        = 'pdf';
+        $config['file_name']            = $filename;
+        $config['overwrite']            = true;
+        $config['max_size']             = 5024; // 1MB
+
+        $this->CI->upload->initialize($config);
+        
+        if ($this->CI->upload->do_upload('lampiran')) {
+            $name = $this->CI->upload->data("file_name");
+            $full_path = $this->CI->upload->data("full_path");
+
+            $datas = [
+                'nama_file' => $name,
+                'url_file' => $full_path,
+                'task_ID' => $task_ID
+            ];
+
+            return $this->CI->mtask->simpan_file($datas);
+
+        }else{
+            return [
+                'error' => true, 
+                'msg' => $this->CI->upload->display_errors()
+            ]; 
+        }
+        
     }
 
     public function update_user(){

@@ -2,6 +2,7 @@
 class Mtask extends CI_Model
 {
     protected $table = 'datatask';
+    protected $table_file = 'lampiran';
 
     function rules(){
         $rules = array(
@@ -9,11 +10,6 @@ class Mtask extends CI_Model
                 'field' => 'judul',
                 'label' => 'Judul Tugas',
                 'rules' => 'required'
-            ),
-            array(
-                'field' => 'deskripsi',
-                'label' => 'Deskripsi Tugas',
-                'rules' => '',
             ),
             array(
                 'field' => 'status',
@@ -24,19 +20,11 @@ class Mtask extends CI_Model
                 ),
             ),
             array(
-                'field' => 'tanggal',
+                'field' => 'tanggaltempo',
                 'label' => 'Tanggal Jatuh Tempo',
                 'rules' => 'required',
                 'errors' => array(
                     'required' => 'You must provide a %s.',
-                ),
-            ),
-            array(
-                'field' => 'attachment',
-                'label' => 'Attachment file (PDF)',
-                'rules' => 'callback_validate_pdf',
-                'errors' => array(
-                    'validate_pdf' => 'The %s must be a valid PDF file.',
                 ),
             ),
         );
@@ -45,9 +33,8 @@ class Mtask extends CI_Model
     }
 
     function simpan(){
+        
         $post = $this->input->post(NUll,TRUE); // enables XSS filtering
-
-        $post['password'] = password_hash($post['password'], PASSWORD_BCRYPT);
 
         $this->db->insert($this->table, $post);
 
@@ -55,6 +42,18 @@ class Mtask extends CI_Model
 
         return $insert_id;
     }
+
+    function simpan_file($data){
+        return $this->db->insert(
+            $this->table_file, 
+            [
+                'nama_file'=>$data['nama_file'],
+                'url_file'=>$data['url_file'],
+                'task_ID'=>$data['task_ID']
+            ]
+        );
+    }
+
 
     function get_all(){
         $query = $this->db->select('*')
@@ -85,6 +84,12 @@ class Mtask extends CI_Model
         $this->db->where('id',$id);
         $this->db->update($this->table,$data);
 
+    }
+
+    function update_idfile_task($file_ID,$task_ID){
+        $data = compact('file_ID');
+        $this->db->where('ID',$task_ID);
+        $this->db->update($this->table,$data);
     }
 
     function delete($id){
