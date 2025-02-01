@@ -48,21 +48,51 @@
     <div class="col-md-6">
         <div class="content-wrapper">
         
-            <form action="<?= site_url('simpandatabarang'); ?>" method="POST">
+            <form action="<?= site_url('simpantask'); ?>" method="POST" enctype="multipart/form-data">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
+                                
+                                <?php if ($this->session->flashdata('error')): ?>
+                                    <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
+                                <?php elseif ($this->session->flashdata('success')) : ?>
+                                    <div class="alert alert-success"><?= $this->session->flashdata('success'); ?></div>
+                                <?php endif; ?>
+
                                 <div class="form-group">
-                                    <label>Kode Barang <span class="required">*</span></label>
-                                    <input placeholder="Tuliskan Disini ..." type="text" name="kode" autocomplete="off" class="form-control <?= form_error('kode') ? 'invalid' : ''; ?>">
-                                    <div class="invalid-feedbacks"><?= form_error('kode'); ?></div>
+                                    <label>Judul Tugas <span class="required">*</span></label>
+                                    <input placeholder="Tuliskan Disini ..." type="text" name="judul" autocomplete="off" class="form-control <?= form_error('judul') ? 'invalid' : ''; ?>">
+                                    <div class="invalid-feedbacks"><?= form_error('judul'); ?></div>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Nama Barang <span class="required">*</span></label>
-                                    <input placeholder="Tuliskan Disini ..." type="text" name="namabarang" autocomplete="off" class="form-control <?= form_error('namabarang') ? 'invalid' : ''; ?>">
-                                    <div class="invalid-feedbacks"><?= form_error('namabarang'); ?></div>
+                                    <label>Deskripsi Tugas <em>(opsional)</em></label>
+                                    <textarea name="deskripsi" class="form-control" placeholder="Tuliskan Disini ..."></textarea>
                                 </div>
+
+                                <div class="form-group">
+                                    <label>Tanggal Jatuh Tempo <span class="required">*</span></label>
+                                    <input type="date" name="tanggaltempo"  class="form-control <?= form_error('tanggaltempo') ? 'invalid' : ''; ?>">
+                                    <div class="invalid-feedbacks"><?= form_error('tanggaltempo'); ?></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Status Tugas <span class="required">*</span></label>
+                                    <select name="status" class="form-control <?= form_error('status') ? 'invalid' : ''; ?>">
+                                        <option value="">Pilih Status</option>
+                                        <option value="Pending">Pending</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Completed">Completed</option>
+                                    </select>
+                                    <div class="invalid-feedbacks"><?= form_error('status'); ?></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>File Pendukung <em>(opsional)</em></label>
+                                    <input type="file" name="lampiran" class="form-control">
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -87,16 +117,45 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
+                        
+                                <?php if ($this->session->flashdata('error')): ?>
+                                    <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
+                                <?php elseif ($this->session->flashdata('success')) : ?>
+                                    <div class="alert alert-success"><?= $this->session->flashdata('success'); ?></div>
+                                <?php endif; ?>
+
                                 <div class="form-group">
-                                    <label>Kode Barang <span class="required">*</span></label>
-                                    <input type="hidden" name="idhidden" value="<?= $getdatabyid['idbarang'] ?? ''; ?>">
-                                    <input value="<?= $getdatabyid['kode'] ?? ''; ?>" placeholder="Tuliskan Disini ..." type="text" name="kode" autocomplete="off" class="form-control <?= form_error('kode') ? 'invalid' : ''; ?>">
-                                    <div class="invalid-feedbacks"><?= form_error('kode'); ?></div>
+                                    <input type="hidden" name="idhidden" value="<?= $getdatabyid['ID'] ?? ''; ?>">
+                                    <label>Judul Tugas <span class="required">*</span></label>
+                                    <input value="<?= $getdatabyid['judul'] ?? ''; ?>" placeholder="Tuliskan Disini ..." type="text" name="judul" autocomplete="off" class="form-control <?= form_error('judul') ? 'invalid' : ''; ?>">
+                                    <div class="invalid-feedbacks"><?= form_error('judul'); ?></div>
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Nama Barang <span class="required">*</span></label>
-                                    <input value="<?= $getdatabyid['namabarang'] ?? ''; ?>" placeholder="Tuliskan Disini ..." type="text" name="namabarang" autocomplete="off" class="form-control <?= form_error('namabarang') ? 'invalid' : ''; ?>">
-                                    <div class="invalid-feedbacks"><?= form_error('namabarang'); ?></div>
+                                    <label>Deskripsi Tugas <em>(opsional)</em></label>
+                                    <textarea value="<?= $getdatabyid['deskripsi'] ?? ''; ?>" name="deskripsi" class="form-control" placeholder="Tuliskan Disini ..."><?php echo $getdatabyid['deskripsi']; ?></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Tanggal Jatuh Tempo <span class="required">*</span></label>
+                                    <input type="date" value="<?= $getdatabyid['tanggaltempo'] ?? ''; ?>" name="tanggaltempo"  class="form-control <?= form_error('tanggaltempo') ? 'invalid' : ''; ?>">
+                                    <div class="invalid-feedbacks"><?= form_error('tanggaltempo'); ?></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Status Tugas <span class="required">*</span></label>
+                                    <select name="status" class="form-control <?= form_error('status') ? 'invalid' : ''; ?>">
+                                        <option value="">Pilih Status</option>
+                                        <option value="Pending" <?php echo (isset($getdatabyid['status']) && $getdatabyid['status'] === 'Pending'  ? 'selected' : '' ); ?> >Pending</option>
+                                        <option value="In Progress" <?php echo (isset($getdatabyid['status']) && $getdatabyid['status'] === 'In Progress'  ? 'selected' : '' ); ?>>In Progress</option>
+                                        <option value="Completed" <?php echo (isset($getdatabyid['status']) && $getdatabyid['status'] === 'Completed'  ? 'selected' : '' ); ?>>Completed</option>
+                                    </select>
+                                    <div class="invalid-feedbacks"><?= form_error('status'); ?></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>File Pendukung <em>(opsional)</em></label>
+                                    <input type="file" name="lampiran" class="form-control">
                                 </div>
                             </div>
                         </div>

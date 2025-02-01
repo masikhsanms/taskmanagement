@@ -46,16 +46,10 @@ class Cmasterdata extends CI_Controller
     }
 
     public function simpantask(){
-        $mmasterdata  = $this->mmasterdata;
-        $rules      = $mmasterdata->rules_barang();
-        $this->form_validation->set_rules( $rules );
-
-        if( $this->form_validation->run() == FALSE ){
-            return $this->tambahtask();
-        }
-
-        if($mmasterdata->simpantask() > 0){
-            redirect(site_url('datatask'));
+        try {
+            $this->taskservices->save();
+        } catch (\Throwable $th) {
+            redirect('tambahtask');
         }
     }
 
