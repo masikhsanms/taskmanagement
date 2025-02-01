@@ -32,8 +32,7 @@
                         <td><?= status_task($row['status']); ?></td>
                         <td>
                             <a href="<?= site_url('edittask/'.$row['ID']); ?>" class="btn-sm btn-warning"><i class="fa fa-edit"></i> Edit</a>
-                            <a href="javascript:void(0);" data-id="<?= $row['ID'] ?>" class="hapusbarang btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
-                            <a href="javascript:void(0);" data-id="<?= $row['ID'] ?>" class="detail btn-sm btn-primary"><i class="fa fa-eye"></i> Detail</a>
+                            <a href="javascript:void(0);" data-id="<?= $row['ID'] ?>" class="hapustask btn-sm btn-danger"><i class="fa fa-trash"></i> Hapus</a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -112,7 +111,7 @@
     <div class="col-md-6">
         <div class="content-wrapper">
         
-            <form action="<?= site_url('updatebarang'); ?>" method="POST">
+            <form action="<?= site_url('updatetask'); ?>" method="POST" enctype="multipart/form-data">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -155,6 +154,16 @@
 
                                 <div class="form-group">
                                     <label>File Pendukung <em>(opsional)</em></label>
+                                    <?php 
+                                        $image_html = '';
+                                        if( isset($getdatabyid['file_ID']) && !empty($getdatabyid['file_ID']) ){
+                                            $image_html = '<div class="form-group fileEdit">
+                                                <input type="hidden" name="file_ID" value="'.$getdatabyid['file_ID'].'">
+                                                Lampiran Tersedia : <a href="'.base_url(IMAGE_PATH.$getdatabyid['nama_file']).'" target="_blank"><i class="fa fa-file-pdf"></i> Download '.ucfirst($getdatabyid['judul']).' PDF</a>
+                                            </div>';
+                                        }       
+                                        echo $image_html;
+                                    ?>
                                     <input type="file" name="lampiran" class="form-control">
                                 </div>
                             </div>

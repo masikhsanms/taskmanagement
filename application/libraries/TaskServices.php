@@ -59,11 +59,6 @@ class TaskServices
 
         $form_validation->set_rules( $rules );
 
-        if( isset($file_upload['error']) ){
-            $this->CI->session->set_flashdata('error', $file_upload['msg']);
-            redirect(site_url('tambahtask'));
-        }
-
         if( $form_validation->run() == FALSE ){
             $this->CI->session->set_flashdata('error', validation_errors());
             redirect(site_url('tambahtask'));
@@ -90,7 +85,7 @@ class TaskServices
 
     }
 
-    public function file_upload($filename,$task_ID){
+    public function file_upload($filename,$task_ID,$is_updatefile=false){
         $config['upload_path']          = FCPATH.'assets/upload/';
         $config['allowed_types']        = 'pdf';
         $config['file_name']            = $filename;
@@ -109,43 +104,59 @@ class TaskServices
                 'task_ID' => $task_ID
             ];
 
+            if($is_updatefile){
+                return $this->CI->mtask->update_file(
+                    array(
+                        'nama_file' => $name,
+                        'url_file' => $full_path
+                    ),
+                    array('task_ID' => $task_ID)
+                );
+            }
+
             return $this->CI->mtask->simpan_file($datas);
 
-        }else{
-            return [
-                'error' => true, 
-                'msg' => $this->CI->upload->display_errors()
-            ]; 
         }
         
     }
 
-    public function update_user(){
-        $mpengguna  = $this->CI->mpengguna;
-        $rules      = $mpengguna->rules();
+    public function update_service(){
+        $mtask  = $this->CI->mtask;
+        $rules  = $mtask->rules();
         $form_validation = $this->CI->form_validation;
         
+        $id = $this->CI->input->post('idhidden',TRUE);
+
         $form_validation->set_rules( $rules );
-                                
+        
         if( $form_validation->run() == FALSE ){
-            redirect('editpengguna/'.$this->CI->input->post('id',true));
+            $this->CI->session->set_flashdata('error', validation_errors());
+            redirect('edittask/'.$id);
         }
 
-        $mpengguna->update(); 
+        $mtask->update(); 
+
+        $file_store_db = $this->file_upload($this->CI->input->post('judul',TRUE),$id,TRUE);
+
+        if( isset($file_store_db['error']) ){
+            $this->CI->session->set_flashdata('error', $file_store_db['msg']);
+            redirect('edittask/'.$id);
+        }
         
-        redirect(site_url('pengguna'));
+        redirect(site_url('datatask'));
     }
 
-    public function delete_user(){
-        $mpengguna  = $this->CI->mpengguna;
-        $id = $this->CI->input->post('id',true);
+    public function delete_service(){
+        $id = $this->CI->input->post('id');
+        $mtask = $this->CI->mtask;
         
-        if($mpengguna->delete($id)){
+        if($mtask->delete($id)){
             $retun = ['code'=>200,'msg'=>'Success'];
         }else{
             $retun = ['code'=>201,'msg'=>'Failed'];
         }
 
         return $retun;
+        
     }
 }
