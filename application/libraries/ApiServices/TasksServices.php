@@ -21,6 +21,11 @@ class TasksServices
 
         //cek token header ketika generate token login
         $this->validate_header();
+
+        if ($this->CI->input->method() !== 'post') {
+            echo json_encode(['code'=>201, 'status' => 'error', 'message' => 'Invalid Method Using Method POST']);
+            die();
+        }
         
         // Ambil data JSON dari body request
         $input = json_decode(file_get_contents("php://input"), true);
@@ -214,6 +219,12 @@ class TasksServices
         // Ambil data JSON dari body request
         $input = json_decode(file_get_contents("php://input"), true);
 
+        //validasi method
+        if ($this->CI->input->method() !== 'put') {
+            echo json_encode(['code'=>201, 'status' => 'error', 'message' => 'Invalid Method Using Method PUT']);
+            die();
+        }
+
         if (!$input) {
             echo json_encode(['code'=>201, 'status' => 'error', 'message' => 'Invalid JSON format']);
             die();
@@ -268,4 +279,41 @@ class TasksServices
         
 
     }
+
+    public function delete_task_service($task_id){
+        $this->validate_header();
+        
+        $decode_data = (array) $this->decode_data_jwt();        
+        $user_id = $decode_data['id'];
+
+        if ($this->CI->input->method() !== 'delete') {
+            echo json_encode(['code'=>201, 'status' => 'error', 'message' => 'Invalid Method Using Method DELETE']);
+            die();
+        }
+
+        $mtask = $this->CI->mtask;
+        
+        $data = [
+            'task_id' =>$task_id,
+            'user_id' =>$user_id
+        ];
+
+        if($mtask->api_delete_task($data)){
+            $retun = [
+                'status'=>'success',
+                'code' =>200,
+                'message' => 'Data Berhasil di Hapus'
+            ];
+        }else{
+            $retun = [
+                'status'=>'error',
+                'code' =>201,
+                'message' => 'Data Gagal di Hapus'
+            ];
+        }
+
+        return $retun;
+
+    }
+
 }
