@@ -146,6 +146,8 @@ class TasksServices
             echo json_encode($response);
             die();
         }
+
+        return true;
     }
 
     public function all(){
@@ -211,7 +213,7 @@ class TasksServices
 
     public function update_task_services($task_id){
         //cek token header ketika generate token login
-        $this->validate_header();
+        $cek_header = $this->validate_header();
         
         $decode_data = (array) $this->decode_data_jwt();        
         $user_id = $decode_data['id'];
@@ -266,7 +268,8 @@ class TasksServices
             'due_date' => $input['due_date'],
             'user_id' => $decode_data['id'],
             'attachment_url' => $input['attachment_url'] ?? '',
-            'file_name' => $input['file_name'] ?? ''
+            'file_name' => $input['file_name'] ?? '',
+            'is_header_api'=>$cek_header
         ];
         
         $this->CI->mtask->api_update_task($task_data);
@@ -314,6 +317,104 @@ class TasksServices
 
         return $retun;
 
+    }
+
+    public function uploadfile_task_service($task_id){
+        $cek_header = $this->validate_header();
+        
+        $decode_data = (array) $this->decode_data_jwt();        
+        $user_id = $decode_data['id'];
+
+        if ($this->CI->input->method() !== 'post') {
+            echo json_encode(['code'=>201, 'status' => 'error', 'message' => 'Invalid Method Using Method POST']);
+            die();
+        }
+
+        // Ambil data JSON dari body request
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        if (!$input) {
+            echo json_encode(['code'=>201, 'status' => 'error', 'message' => 'Invalid JSON format']);
+            die();
+        }
+
+        // Set rules untuk form validation
+        $form_validation = $this->CI->form_validation;
+        $form_validation->set_data($input); // Set data input agar bisa divalidasi
+        $form_validation->set_rules('attachment_url', 'Url File', 'required');
+        $form_validation->set_rules('file_name', 'File Name', 'required');
+
+        if ($form_validation->run() === FALSE) {
+            // Jika validasi gagal, kirimkan error dalam format JSON
+            echo json_encode([
+                'status' => 'error',
+                'message' => validation_errors()
+            ]);
+            die();
+        }
+
+        $cek_user_by_task = $this->CI->mpengguna->get_by_id($user_id);
+        
+        if( empty($cek_user_by_task) ){
+            echo json_encode([
+                'status' => 'error',
+                'code' =>201,
+                'message' => 'user ID Tidak Sesuai'
+            ]);
+            die();
+        }
+
+        $datas = [
+            'task_id' => $task_id,
+            'user_id' => $user_id,
+            'attachment_url' => $input['attachment_url'] ?? '',
+            'file_name' => $input['file_name'] ?? '',
+            'is_header_api' => $cek_header
+        ];
+
+        $this->CI->mtask->api_upload_file_task($datas);
+
+        return [
+            'status'=>'success',
+            'code' =>200,
+            'message' => 'Data Berhasil di Update'
+        ]; 
+    }
+
+    public function preview_task_service($task_id)
+    {
+        //cek token header ketika generate token login
+        $this->validate_header();
+
+        if ($this->CI->input->method() !== 'get') {
+            echo json_encode(['code'=>201, 'status' => 'error', 'message' => 'Invalid Method Using Method GET']);
+            die();
+        }
+
+        $decode_data = (array) $this->decode_data_jwt();        
+        $user_id = $decode_data['id'];
+
+        $query = $this->CI->mtask->getfileurl_by_taskid_userid( $task_id, $user_id);
+        
+        if( empty($query) ){
+            $response = [
+                'status' => 'error',
+                'code'=>404,
+                'message' => 'Data Tidak ditemukan',
+                'data'=>[]
+            ];
+            echo json_encode($response);
+            die();
+        }
+
+        $response = [
+            'status' => 'success',
+            'code'=>200,
+            'message'=>'Data Berhasil di temukan',
+            'data' => $query
+        ];
+
+        return $response;
     }
 
 }

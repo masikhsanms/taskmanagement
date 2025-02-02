@@ -106,11 +106,19 @@ class Mtask extends CI_Model
                                 ->row_array();
         
         if( !empty($row_lampiran) && isset($row_lampiran['nama_file']) ){
-            $is_removefile = remove_file($row_lampiran['nama_file']);
-            if( $is_removefile ){
+            if( $data['is_header_api'] == TRUE ){
                 $this->db->update(
-                    $this->table_file,$data,$where
+                    $this->table_file,
+                    ['nama_file'=>$data['nama_file'],'url_file'=>$data['url_file']],
+                    $where
                 );
+            }else{
+                $is_removefile = remove_file($row_lampiran['nama_file']);
+                if( $is_removefile ){
+                    $this->db->update(
+                        $this->table_file,$data,$where
+                    );
+                }
             }
         }
 
@@ -175,7 +183,7 @@ class Mtask extends CI_Model
         $file_id = $this->db->insert_id();
 
         if( $file_id > 0 ){
-            $this->update_file(['file_ID'=>$file_id],['ID'=>$data['task_ID']]);
+            $this->update_idfile_task($file_id,$data['task_ID']);
         }
 
     }
@@ -246,7 +254,8 @@ class Mtask extends CI_Model
         $this->update_file(
             array(
                 'nama_file' => $datas['file_name'],
-                'url_file' => $datas['attachment_url']
+                'url_file' => $datas['attachment_url'],
+                'is_header_api' => $datas['is_header_api'],
             ),
             array('task_ID' => $datas['task_id'])
         );
@@ -276,6 +285,50 @@ class Mtask extends CI_Model
         $query = $this->db->delete($this->table,['id'=>$id,'user_ID'=>$user_id]);
         
         return $query;
+    }
+
+    public function api_upload_file_task($datas){
+        $row_lampiran = $this->db->select('ID')
+        ->where('task_ID',$datas['task_id'])
+        ->get($this->table_file)
+        ->row_array();
+
+        if( empty($row_lampiran) ){
+            $this->api_simpan_file(
+                array(
+                    'nama_file'=>$datas['file_name'],
+                    'url_file'=>$datas['attachment_url'],
+                    'task_ID'=>$datas['task_id'] 
+                )
+            );
+        }else{
+            $this->update_file(
+                array(
+                    'nama_file' => $datas['file_name'],
+                    'url_file' => $datas['attachment_url'],
+                    'is_header_api' => $datas['is_header_api']
+                ),
+                array('task_ID' => $datas['task_id'])
+            );
+        }
+    }
+
+    function getfileurl_by_taskid_userid($taskid,$userid){
+        $row_lampiran = $this->db->select('ID')
+                                ->where('task_ID',$taskid)
+                                ->get($this->table_file)
+                                ->row_array();
+        if( !empty($row_lampiran) ){
+            $row = $this->db->select('l.nama_file,l.url_file')
+                ->join($this->table_file.' l','t.ID = l.task_ID')
+                ->where('t.ID',$taskid)
+                ->where('t.user_ID',$userid)
+                ->get($this->table.' t')
+                ->row_array();
+
+            return $row;
+        }
+
     }
 
 }
