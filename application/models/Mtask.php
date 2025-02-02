@@ -253,4 +253,29 @@ class Mtask extends CI_Model
         
     }
 
+    public function api_delete_task($data){
+        $id = $data['task_id'];
+        $user_id = $data['user_id'];
+        
+        $row_lampiran = $this->db->select('*')
+        ->where(['task_ID'=>$id])
+        ->get($this->table_file)
+        ->row_array();
+
+        
+        if( !empty($row_lampiran) ){
+            
+            $is_remove = remove_file($row_lampiran['nama_file']);
+
+            if( $is_remove ){
+                $this->db->delete($this->table_file,['ID'=>$row_lampiran['ID']]);
+            }
+
+        }
+        
+        $query = $this->db->delete($this->table,['id'=>$id,'user_ID'=>$user_id]);
+        
+        return $query;
+    }
+
 }

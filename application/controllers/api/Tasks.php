@@ -53,8 +53,33 @@ class Tasks extends CI_Controller {
 
     public function update_task($taskid){
 
-        $response = $this->tasksservices->update_task_services($taskid);
-        echo json_encode($response);
+        try {
+            $response = $this->tasksservices->update_task_services($taskid);
+            echo json_encode($response);
+        } catch (\Throwable $th) {
+            $error_response = [
+                'code' => 201,
+                'status' =>  'error',
+                'message' => 'Something went wrong. Please try again later.'
+            ];
+            echo json_encode($error_response);  // Send error response to client
+        }
+
+
+    }
+
+    public function delete_task($taskid){
+        try {
+            $response = $this->tasksservices->delete_task_service($taskid);
+            echo json_encode($response);
+        } catch (\Throwable $th) {
+            $error_response = [
+                'code' => 201,
+                'status' =>  'error',
+                'message' => 'Something went wrong. Please try again later.'
+            ];
+            echo json_encode($error_response);  // Send error response to client
+        }
 
     }
 }
