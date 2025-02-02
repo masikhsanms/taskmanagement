@@ -50,4 +50,11 @@ class Tasks extends CI_Controller {
             echo json_encode($error_response);  // Send error response to client
         }
     }
+
+    public function update_task($taskid){
+
+        $response = $this->tasksservices->update_task_services($taskid);
+        echo json_encode($response);
+
+    }
 }
