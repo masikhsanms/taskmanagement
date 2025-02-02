@@ -208,4 +208,27 @@ class Mtask extends CI_Model
         }
     }
 
+    function get_by_taskid_userid($taskid,$userid){
+        $row_lampiran = $this->db->select('ID')
+                                ->where('task_ID',$taskid)
+                                ->get($this->table_file)
+                                ->row_array();
+        if( !empty($row_lampiran) ){
+            $row = $this->db->select('t.*,l.nama_file,l.url_file')
+                ->join($this->table_file.' l','t.ID = l.task_ID')
+                ->where('t.ID',$taskid)
+                ->where('t.user_ID',$userid)
+                ->get($this->table.' t')
+                ->row_array();
+        }else{
+            $row = $this->db->select('*')
+                ->where('ID',$taskid)
+                ->where('user_ID',$userid)
+                ->get($this->table)
+                ->row_array();
+        }
+
+        return $row;
+    }
+
 }

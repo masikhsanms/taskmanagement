@@ -31,7 +31,21 @@ class Tasks extends CI_Controller {
             $error_response = [
                 'code' => 201,
                 'status' =>  'error',
-                'message' => 'Something went wrong. Please try again later.',
+                'message' => 'Something went wrong. Please try again later.'
+            ];
+            echo json_encode($error_response);  // Send error response to client
+        }
+    }
+
+    public function get_task($id){
+        try {
+            $response = $this->tasksservices->get_task_by_ID($id);
+            echo json_encode( $response );
+        } catch (\Throwable $th) {
+            $error_response = [
+                'code' => 201,
+                'status' =>  'error',
+                'message' => 'Something went wrong. Please try again later.'
             ];
             echo json_encode($error_response);  // Send error response to client
         }

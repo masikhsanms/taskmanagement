@@ -182,4 +182,34 @@ class TasksServices
         $decoded = JWT::decode($token, new Key($this->secret_key, 'HS256'));
         return $decoded;
     }
+
+    public function get_task_by_ID($task_id){
+        //cek token header ketika generate token login
+        $this->validate_header();
+
+        $decode_data = (array) $this->decode_data_jwt();        
+        $user_id = $decode_data['id'];
+
+        $query = $this->CI->mtask->get_by_taskid_userid( $task_id, $user_id);
+        
+        if( empty($query) ){
+            $response = [
+                'status' => 'error',
+                'code'=>404,
+                'message' => 'Data Tidak ditemukan',
+                'data'=>[]
+            ];
+            echo json_encode($response);
+            die();
+        }
+
+        $response = [
+            'status' => 'success',
+            'code'=>200,
+            'message'=>'Data Berhasil di temukan',
+            'data' => $query
+        ];
+
+        return $response;
+    }
 }
