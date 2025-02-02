@@ -84,4 +84,48 @@ class Mpengguna extends CI_Model
         return $query;
     }
 
+
+    function api_simpan_pengguna($datas){
+
+        $this->db->insert($this->tb_pengguna, $datas);
+
+        $insert_id = $this->db->insert_id();
+
+        return $insert_id;
+    }
+
+    function is_username_exist($username){
+        $query = $this->db->select('username')
+        ->where('username',$username)
+        ->get($this->tb_pengguna)
+        ->row_array();
+
+        if( !empty($query) && isset($query['username']) && $query['username'] === $username ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function is_email_exist($email){
+        $query = $this->db->select('email')
+        ->where('email',$email)
+        ->get($this->tb_pengguna)
+        ->row_array();
+
+        if( !empty($query) && isset($query['email']) && $query['email'] === $email ){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    function get_user_by_email($email){
+        $query = $this->db->select('*')
+        ->where('email',$email)
+        ->get($this->tb_pengguna)
+        ->row_array();
+        
+        return $query;
+    }
 }

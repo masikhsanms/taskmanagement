@@ -59,6 +59,12 @@ $route['translate_uri_dashes'] = FALSE;
  */
 $route['admin'] = 'admin/coverview';
 
+/** API */
+$route['register']  = 'api/register';
+$route['login']     = 'api/login';
+$route['tasks']     = 'api/tasks';
+$route['tasks/all'] = 'api/tasks/all';
+
 /**
  * MENU PENGGUNA
  */
