@@ -65,7 +65,7 @@ $route['login']     = 'api/login';
 $route['tasks']     = 'api/tasks';
 $route['tasks/all'] = 'api/tasks/all';
 $route['tasks/(:num)'] = 'api/tasks/get_task/$1';
-
+$route['tasks/edit/(:num)'] = 'api/tasks/update_task/$1';
 
 /**
  * MENU PENGGUNA

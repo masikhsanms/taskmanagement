@@ -231,4 +231,26 @@ class Mtask extends CI_Model
         return $row;
     }
 
+    function api_update_task($datas){
+        
+        $data = [
+            'judul' => $datas['title'],
+            'deskripsi' => $datas['description'],
+            'status' => $datas['status'],
+            'tanggaltempo' => $datas['due_date'],
+        ];
+
+        $this->db->where(['ID'=>$datas['task_id'],'user_ID'=>$datas['user_id']]);
+        $this->db->update($this->table,$data);
+
+        $this->update_file(
+            array(
+                'nama_file' => $datas['file_name'],
+                'url_file' => $datas['attachment_url']
+            ),
+            array('task_ID' => $datas['task_id'])
+        );
+        
+    }
+
 }

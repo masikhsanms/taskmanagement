@@ -94,16 +94,7 @@ class TasksServices
             'file_name' => $input['file_name'] ?? ''
         ];
 
-        if( !isset($input['user_id']) && empty($input['user_id']) ){
-            echo json_encode([
-                'status' => 'error',
-                'code' => 201,
-                'message' => 'User ID Tidak Boleh Kosong'
-            ]);
-            die();
-        }
-
-        $cek_user_by_task = $this->CI->mpengguna->get_by_id($input['user_id']);
+        $cek_user_by_task = $this->CI->mpengguna->get_by_id($decode_data['user_id']);
         
         if( empty($cek_user_by_task) ){
             echo json_encode([
@@ -211,5 +202,70 @@ class TasksServices
         ];
 
         return $response;
+    }
+
+    public function update_task_services($task_id){
+        //cek token header ketika generate token login
+        $this->validate_header();
+        
+        $decode_data = (array) $this->decode_data_jwt();        
+        $user_id = $decode_data['id'];
+
+        // Ambil data JSON dari body request
+        $input = json_decode(file_get_contents("php://input"), true);
+
+        if (!$input) {
+            echo json_encode(['code'=>201, 'status' => 'error', 'message' => 'Invalid JSON format']);
+            die();
+        }
+
+        // Set rules untuk form validation
+        $form_validation = $this->CI->form_validation;
+        $form_validation->set_data($input); // Set data input agar bisa divalidasi
+        $form_validation->set_rules('title', 'Title', 'required');
+        $form_validation->set_rules('status', 'Status', 'required');
+        $form_validation->set_rules('due_date', 'Due Date', 'required');
+
+        if ($form_validation->run() === FALSE) {
+            // Jika validasi gagal, kirimkan error dalam format JSON
+            echo json_encode([
+                'status' => 'error',
+                'message' => validation_errors()
+            ]);
+            die();
+        }
+
+
+        $cek_user_by_task = $this->CI->mpengguna->get_by_id($user_id);
+        
+        if( empty($cek_user_by_task) ){
+            echo json_encode([
+                'status' => 'error',
+                'code' =>201,
+                'message' => 'user ID Tidak Sesuai'
+            ]);
+            die();
+        }
+
+        $task_data = [
+            'task_id' => $task_id,
+            'title' => $input['title'],
+            'description' => $input['description'] ?? '',
+            'status' => $input['status'],
+            'due_date' => $input['due_date'],
+            'user_id' => $decode_data['id'],
+            'attachment_url' => $input['attachment_url'] ?? '',
+            'file_name' => $input['file_name'] ?? ''
+        ];
+        
+        $this->CI->mtask->api_update_task($task_data);
+
+        return [
+            'status'=>'success',
+            'code' =>200,
+            'message' => 'Data Berhasil di Update'
+        ];
+        
+
     }
 }
