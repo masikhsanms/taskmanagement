@@ -104,14 +104,16 @@ class Mtask extends CI_Model
                                 ->where($where)
                                 ->get($this->table_file)
                                 ->row_array();
-                                        
-        $is_removefile = remove_file($row_lampiran['nama_file']);
-
-        if( $is_removefile ){
-            $this->db->update(
-                $this->table_file,$data,$where
-            );
+        
+        if( !empty($row_lampiran) && isset($row_lampiran['nama_file']) ){
+            $is_removefile = remove_file($row_lampiran['nama_file']);
+            if( $is_removefile ){
+                $this->db->update(
+                    $this->table_file,$data,$where
+                );
+            }
         }
+
 
     }
 
@@ -141,6 +143,69 @@ class Mtask extends CI_Model
         $query = $this->db->delete($this->table,['id'=>$id]);
         
         return $query;
+    }
+
+    function api_simpan_task($datas){
+
+        $data = [
+            'judul' => $datas['title'],
+            'deskripsi' => $datas['description'],
+            'status' => $datas['status'],
+            'tanggaltempo' => $datas['due_date'],
+            'user_ID' => $datas['user_id'],
+        ];
+
+        $this->db->insert($this->table, $data);
+
+        $insert_id = $this->db->insert_id();
+
+        return $insert_id;
+    }
+
+    function api_simpan_file($data){
+        $this->db->insert(
+            $this->table_file, 
+            [
+                'nama_file'=>$data['nama_file'],
+                'url_file'=>$data['url_file'],
+                'task_ID'=>$data['task_ID']
+            ]
+        );
+
+        $file_id = $this->db->insert_id();
+
+        if( $file_id > 0 ){
+            $this->update_file(['file_ID'=>$file_id],['ID'=>$data['task_ID']]);
+        }
+
+    }
+
+    function api_get_by_userid($userid){
+
+        $row_mtask = $this->db->select('ID')->get_where($this->table,['user_ID'=>$userid])->row_array();
+        
+        if(!empty( $row_mtask )){
+            $id = $row_mtask['ID'];
+            $row_lampiran = $this->db->select('ID')
+                                    ->where('task_ID',$id)
+                                    ->get($this->table_file)
+                                    ->row_array();
+    
+            if( !empty($row_lampiran) ){
+                $row = $this->db->select('t.*,l.nama_file,l.url_file')
+                    ->join($this->table_file.' l','t.ID = l.task_ID')
+                    ->where('t.user_ID',$userid)
+                    ->get($this->table.' t')
+                    ->result_array();
+            }else{
+                $row = $this->db->select('*')
+                    ->where('user_ID',$userid)
+                    ->get($this->table)
+                    ->result_array();
+            }
+    
+            return $row;
+        }
     }
 
 }

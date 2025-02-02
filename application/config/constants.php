@@ -92,6 +92,8 @@ define('SITE_NAME','Task Management');
 
 define('IMAGE_PATH','assets/upload/');
 
+define('SECRET_KEY','taskmanagement_jwt');
+
 /**
  * Definisikan Plugins
  */
