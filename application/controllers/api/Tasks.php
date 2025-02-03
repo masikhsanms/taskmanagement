@@ -82,4 +82,32 @@ class Tasks extends CI_Controller {
         }
 
     }
+
+    public function uploadfile_task($taskid){
+        try {
+            $response = $this->tasksservices->uploadfile_task_service($taskid);
+            echo json_encode($response);
+        } catch (\Throwable $th) {
+            $error_response = [
+                'code' => 201,
+                'status' =>  'error',
+                'message' => 'Something went wrong. Please try again later.'
+            ];
+            echo json_encode($error_response);  // Send error response to client
+        }
+    }
+
+    public function preview_task($taskid){
+        try {
+            $response = $this->tasksservices->preview_task_service($taskid);
+            echo json_encode($response);
+        } catch (\Throwable $th) {
+            $error_response = [
+                'code' => 201,
+                'status' =>  'error',
+                'message' => 'Something went wrong. Please try again later.'
+            ];
+            echo json_encode($error_response);  // Send error response to client
+        }
+    }
 }
