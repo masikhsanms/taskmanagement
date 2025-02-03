@@ -99,7 +99,7 @@ class TasksServices
             'file_name' => $input['file_name'] ?? ''
         ];
 
-        $cek_user_by_task = $this->CI->mpengguna->get_by_id($decode_data['user_id']);
+        $cek_user_by_task = $this->CI->mpengguna->get_by_id($decode_data['id']);
         
         if( empty($cek_user_by_task) ){
             echo json_encode([
