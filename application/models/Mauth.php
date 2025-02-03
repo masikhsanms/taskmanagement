@@ -1,7 +1,7 @@
 <?php
 class Mauth extends CI_Model
 {
-	private $tb_pengguna = "pengguna";
+	private $tb_pengguna = "users";
 	const SESSION_KEY = 'userid';
 
 	public function rules()
@@ -38,12 +38,12 @@ class Mauth extends CI_Model
 		}
 
 		// cek apakah password-nya benar?
-		if ($password != $user->password) {
+        if( !password_verify($password,  $user->password ) ){
 			return FALSE;
-		}
+        }
 
 		// bikin session
-		$this->session->set_userdata([self::SESSION_KEY => $user->id]);
+		$this->session->set_userdata([self::SESSION_KEY => $user->ID]);
 		// $this->_update_last_login($user->id);
 
 		return $this->session->has_userdata(self::SESSION_KEY);
@@ -56,7 +56,7 @@ class Mauth extends CI_Model
 		}
 
 		$user_id = $this->session->userdata(self::SESSION_KEY);
-		$query = $this->db->get_where($this->tb_pengguna, ['id' => $user_id]);
+		$query = $this->db->get_where($this->tb_pengguna, ['ID' => $user_id]);
 		return $query->row();
 	}
 

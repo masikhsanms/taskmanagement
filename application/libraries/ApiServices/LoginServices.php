@@ -90,7 +90,20 @@ class LoginServices
             die();
         }
 
+        
+        
         $row_user = $this->CI->mpengguna->get_user_by_email($email);
+        
+        // $password_hashed = password_hash($password, PASSWORD_DEFAULT);
+        
+        if( !password_verify($password, $row_user['password']) ){
+            echo json_encode([
+                'status' => 'error',
+                'code' => 201,
+                'message' => 'Password Tidak Sesuai.'
+            ]);
+            die();
+        }
 
         $user_data = [
             'ID' => $row_user['ID'],
