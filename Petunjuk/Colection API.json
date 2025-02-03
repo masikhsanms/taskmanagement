@@ -1,0 +1,383 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "id": "8bf00d3a-9b85-45fc-a42a-6ba4d81c3abd",
+        "name": "Test API"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost",
+              "path": "/taskmanagement/tasks/all"
+            },
+            "id": "16ce99b7-d605-4d0f-b114-fdbb552d0ad2",
+            "name": "All Task",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Authorization",
+                "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE3IiwidXNlcm5hbWUiOiJ0ZXN0dXNlckFQSSIsImVtYWlsIjoiYXBpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM4NDg3MzA0LCJleHAiOjE3Mzg0OTA5MDR9.ffQb8d5kVJmATPlypZskcY6SyjRgO0FPP7yvvCw9hxg"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.5",
+              "name": "DELETE"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": ""
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost",
+              "path": "/taskmanagement/tasks/25/delete"
+            },
+            "id": "20b2ff25-8636-4d99-94c7-08127426fbe5",
+            "name": "Delete Task",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Authorization",
+                "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE3IiwidXNlcm5hbWUiOiJ0ZXN0dXNlckFQSSIsImVtYWlsIjoiYXBpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM4NTA2MjU5LCJleHAiOjE3Mzg1MDk4NTl9.yWbgaTS72FRHw8xmBt1wG9qLq5zDq_fAQtQ4PihCkMs"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\n  \"email\":\"api@example.com\",\n  \"password\":\"123456\"\n}"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost",
+              "path": "/taskmanagement/login"
+            },
+            "id": "6c54b5fb-fc1d-4b50-8bc9-fd8ce37d2b72",
+            "name": "Login",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\n  \"attachment_url\":\"http://test.com/okes.png\",\n  \"file_name\":\"okes.png\"\n}"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost",
+              "path": "/taskmanagement/tasks/26/preview"
+            },
+            "id": "0ca1b367-5cd5-48ea-8b24-64d8f35df7f8",
+            "name": "Preview Task",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Authorization",
+                "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE3IiwidXNlcm5hbWUiOiJ0ZXN0dXNlckFQSSIsImVtYWlsIjoiYXBpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM4NTUyMjQzLCJleHAiOjE3Mzg1NTU4NDN9.SQAiGX85K1rJyiXDoTbkWYUpVAo3PkAjc-OHPoy7e0k"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\n  \"username\": \"testuserAPI\",\n  \"email\": \"api@example.com\",\n  \"password\": \"123456\",\n  \"nama\": \"API User\"\n}"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost",
+              "path": "/taskmanagement/register"
+            },
+            "id": "4c3aec11-bd92-4184-9ff6-11e0c6844b9e",
+            "name": "Register",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+              "name": "GET"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost",
+              "path": "/taskmanagement/tasks/12"
+            },
+            "id": "0c160ca8-6510-4fd6-99e8-5e50350e589a",
+            "name": "Task By ID",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Authorization",
+                "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE3IiwidXNlcm5hbWUiOiJ0ZXN0dXNlckFQSSIsImVtYWlsIjoiYXBpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM4NTAyNTczLCJleHAiOjE3Mzg1MDYxNzN9.Y_ICnVtADP4NP7S15u4z96ENMNsuIc8Z9apv93oD900"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\n  \"title\":\"Coba Test Lagi 17\",\n  \"description\":\"17 Oke Mantap\",\n  \"status\":\"Pending\",\n  \"due_date\":\"2025-01-02\",\n  \"attachment_url\":\"\",\n  \"file_name\":\"\"\n}"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost",
+              "path": "/taskmanagement/tasks"
+            },
+            "id": "50749e03-587c-4c31-9bf0-ec02506cc13c",
+            "name": "Tasks",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Authorization",
+                "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE3IiwidXNlcm5hbWUiOiJ0ZXN0dXNlckFQSSIsImVtYWlsIjoiYXBpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM4NTUyMjQzLCJleHAiOjE3Mzg1NTU4NDN9.SQAiGX85K1rJyiXDoTbkWYUpVAo3PkAjc-OHPoy7e0k"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.4",
+              "name": "PUT"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\n  \"title\":\"coba Update Coba Test Lagi 17\",\n  \"description\":\"Update 17 Oke Mantap\",\n  \"status\":\"In Progress\",\n  \"due_date\":\"2025-02-02\",\n  \"attachment_url\":\"\",\n  \"file_name\":\"\"\n}"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost",
+              "path": "/taskmanagement/tasks/25/edit"
+            },
+            "id": "ad70ef74-77e3-4040-a3c8-c143f4ec2c9c",
+            "name": "Update Task",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Authorization",
+                "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE3IiwidXNlcm5hbWUiOiJ0ZXN0dXNlckFQSSIsImVtYWlsIjoiYXBpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM4NTA2MjU5LCJleHAiOjE3Mzg1MDk4NTl9.yWbgaTS72FRHw8xmBt1wG9qLq5zDq_fAQtQ4PihCkMs"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        },
+        {
+          "entity": {
+            "type": "Request",
+            "method": {
+              "requestBody": true,
+              "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+              "name": "POST"
+            },
+            "body": {
+              "formBody": {
+                "overrideContentType": true,
+                "encoding": "application/x-www-form-urlencoded",
+                "items": []
+              },
+              "bodyType": "Text",
+              "textBody": "{\n  \"attachment_url\":\"http://test.com/okes.png\",\n  \"file_name\":\"okes.png\"\n}"
+            },
+            "uri": {
+              "query": {
+                "delimiter": "&",
+                "items": []
+              },
+              "scheme": {
+                "name": "http",
+                "version": "V11"
+              },
+              "host": "localhost",
+              "path": "/taskmanagement/tasks/26/upload"
+            },
+            "id": "23a2f201-2a9c-4197-863f-7ca5f5a7411c",
+            "name": "post uploadfile",
+            "headers": [
+              {
+                "enabled": true,
+                "name": "Authorization",
+                "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE3IiwidXNlcm5hbWUiOiJ0ZXN0dXNlckFQSSIsImVtYWlsIjoiYXBpQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM4NTUyMjQzLCJleHAiOjE3Mzg1NTU4NDN9.SQAiGX85K1rJyiXDoTbkWYUpVAo3PkAjc-OHPoy7e0k"
+              },
+              {
+                "enabled": true,
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
