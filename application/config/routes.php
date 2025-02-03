@@ -82,7 +82,6 @@ $route['hapuspengguna'] = 'admin/cpengguna/hapuspengguna';
 
 /**
  * MENU Master Data
- * 1. data barang
  */
 $route['datatask'] = 'admin/cmasterdata/datatask';
 $route['tambahtask'] = 'admin/cmasterdata/tambahtask';
@@ -91,94 +90,7 @@ $route['edittask/(:num)'] = 'admin/cmasterdata/edit/$1';
 $route['updatetask'] = 'admin/cmasterdata/update';
 $route['hapustask'] = 'admin/cmasterdata/delete';
 
-/**
- * MENU Master Data
- * 1. data supplier
- */
-$route['supplier'] = 'admin/cmasterdata/supplier';
-$route['tambahsuplier'] = 'admin/cmasterdata/tambahsuplier';
-$route['simpansuplier'] = 'admin/cmasterdata/simpansuplier';
-$route['editsuplier/(:num)'] = 'admin/cmasterdata/editsuplier/$1';
-$route['updatesuplier'] = 'admin/cmasterdata/updatedatasuplier';
-$route['hapussuplier'] = 'admin/cmasterdata/hapussuplier';
 
-/**
- * 2. data produk
- */
-$route['produk'] = 'admin/cmasterdata/dataproduk';
-$route['tambahproduk'] = 'admin/cmasterdata/tambahproduk';
-$route['simpanproduk'] = 'admin/cmasterdata/simpanproduk';
-$route['editproduk/(:num)'] = 'admin/cmasterdata/editproduk/$1';
-$route['updateproduk'] = 'admin/cmasterdata/updatedataproduk';
-$route['hapusproduk'] = 'admin/cmasterdata/hapusproduk';
-
-/**
- * 3. data buyer
- */
-$route['buyer'] = 'admin/cmasterdata/databuyer';
-$route['tambahbuyer'] = 'admin/cmasterdata/tambahbuyer';
-$route['simpanbuyer'] = 'admin/cmasterdata/simpanbuyer';
-$route['editbuyer/(:num)'] = 'admin/cmasterdata/editbuyer/$1';
-$route['updatebuyer'] = 'admin/cmasterdata/updatedatabuyer';
-$route['hapusbuyer'] = 'admin/cmasterdata/hapusbuyer';
-
-/**
- * MENU Inventory 
- * 1. Stok Barang
- */
-$route['stokbarang'] = 'admin/cinventory/stokbarang';
-$route['tambahstokbarang'] = 'admin/cinventory/tambahstokbarang';
-$route['simpanstokbarang'] = 'admin/cinventory/simpanstokbarang';
-$route['editstokbarang/(:num)'] = 'admin/cinventory/editstokbarang/$1';
-$route['updatestokbarang'] = 'admin/cinventory/updatestokbarang';
-$route['deletestokbarang'] = 'admin/cinventory/deletestokbarang';
-
-
-/**
- * MENU Inventory 
- * 2. Barang Masuk
- */
-$route['barangmasuk'] = 'admin/cinventory/barangmasuk';
-$route['tambahbarangmasuk'] = 'admin/cinventory/tambahbarangmasuk';
-$route['simpanbarangmasuk'] = 'admin/cinventory/simpanbarangmasuk';
-$route['editbarangmasuk/(:num)'] = 'admin/cinventory/editbarangmasuk/$1';
-$route['updatebarangmasuk'] = 'admin/cinventory/updatebarangmasuk';
-$route['deletebarangmasuk'] = 'admin/cinventory/deletebarangmasuk';
-
-/**
- * MENU Inventory 
- * 2. Barang Keluar
- */
-$route['barangkeluar'] = 'admin/cinventory/barangkeluar';
-$route['tambahbarangkeluar'] = 'admin/cinventory/tambahbarangkeluar';
-$route['simpanbarangkeluar'] = 'admin/cinventory/simpanbarangkeluar';
-$route['editbarangkeluar/(:num)'] = 'admin/cinventory/editbarangkeluar/$1';
-$route['updatebarangkeluar'] = 'admin/cinventory/updatebarangkeluar';
-$route['deletebarangkeluar'] = 'admin/cinventory/deletebarangkeluar';
-
-
-/**
- * MENU Transaksi 
- * 2. pembelian barang
- */
-$route['pembelianbarang'] = 'admin/ctransaksi/pembelian';
-$route['tambahpembelian'] = 'admin/ctransaksi/tambahpembelian';
-$route['simpanpembelian'] = 'admin/ctransaksi/simpanpembelian';
-$route['editpembelian/(:num)'] = 'admin/ctransaksi/editpembelian/$1';
-$route['updatepembelian'] = 'admin/ctransaksi/updatepembelian';
-$route['hapuspembelian'] = 'admin/ctransaksi/deletepembelian';
-
-/**
- * MENU Transaksi 
- * 2. Penjualan barang
- */
-$route['penjualanbarang'] = 'admin/ctransaksi/penjualanbarang';
-$route['tambahpenjualan'] = 'admin/ctransaksi/tambahpenjualan';
-$route['simpanpenjualan'] = 'admin/ctransaksi/simpanpenjualan';
-$route['editpenjualan/(:num)'] = 'admin/ctransaksi/editpenjualan/$1';
-$route['updatepenjualan'] = 'admin/ctransaksi/updatepenjualan';
-$route['hapuspenjualan'] = 'admin/ctransaksi/deletepenjualan';
-$route['buyer_penjualan'] = 'admin/ctransaksi/buyer_penjualan';
 /**
  * LOGIN
  */

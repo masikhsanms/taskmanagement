@@ -57,7 +57,7 @@ class Mpengguna extends CI_Model
 
     function get_by_id($id=null){
         $query = $this->db->select('*')
-                          ->where('id',$id)
+                          ->where('ID',$id)
                           ->get($this->tb_pengguna)
                           ->row_array();
 
@@ -66,7 +66,7 @@ class Mpengguna extends CI_Model
 
     function update(){
         $post = $this->input->post(NULL,TRUE); // enables XSS filtering
-        $id = $post['id'];
+        $id = $post['ID'];
         $nama = $post['nama'];
         $username = $post['username'];
         $email = $post['email'];
@@ -74,13 +74,13 @@ class Mpengguna extends CI_Model
 
         $data = compact('nama','username','email','password');
 
-        $this->db->where('id',$id);
+        $this->db->where('ID',$id);
         $this->db->update($this->tb_pengguna,$data);
 
     }
 
     function delete($id){
-        $query = $this->db->delete($this->tb_pengguna,['id'=>$id]);
+        $query = $this->db->delete($this->tb_pengguna,['ID'=>$id]);
         return $query;
     }
 

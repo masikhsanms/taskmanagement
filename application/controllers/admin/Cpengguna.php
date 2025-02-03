@@ -10,9 +10,9 @@ class Cpengguna extends CI_Controller
         $this->load->model('mpengguna');
         $this->load->model('mauth');
 		
-        // if(!$this->mauth->current_user()){
-		// 	redirect('adminlogin');
-		// }
+        if(!$this->mauth->current_user()){
+			redirect('adminlogin');
+		}
 
         $this->userService = new UserServices();
     }
